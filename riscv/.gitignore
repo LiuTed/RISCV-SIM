@@ -1,1 +1,5 @@
 *.o
+build/*
+sim
+sim-db
+sim-dbg

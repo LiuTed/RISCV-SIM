@@ -5,18 +5,20 @@ bool BranchPredict::predict(ulli pc, lli offset)
 {
 	return status > 0;
 }
-void BranchPredict::feedback(ulli pc, lli offset, bool succ)
+void BranchPredict::feedback(ulli pc, lli offset, bool pred, bool succ)
 {
 	if(succ)
 	{
 		stats->summary("BranchPredict: correct predict");
-		status++;
 	}
 	else
 	{
 		stats->summary("BranchPredict: fault predict");
-		status--;
 	}
+	if(pred ^ succ)
+		status --;//did not jump
+	else
+		status ++;//did jump
 	status = (status > 3 ? 3 : status);
 	status = (status < 0 ? 0 : status);
 }

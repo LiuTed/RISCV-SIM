@@ -1961,18 +1961,18 @@ void Machine::pipeline_forward()
 			predPC = e_[newP];
 			D_status |= Bubble;
 			E_status |= Bubble;
-			predictor.feedback(E_[valP], E_[valC], false);
+			predictor.feedback(E_[valP], E_[valC], false, false);
 		}
 		else if((e_[newP] == E_[valP]) && E_[pj])//should not jump but taken
 		{
 			predPC = E_[newP] + 4;
 			D_status |= Bubble;
 			E_status |= Bubble;
-			predictor.feedback(E_[valP], E_[valC], false);
+			predictor.feedback(E_[valP], E_[valC], true, false);
 		}
 		else
 		{
-			predictor.feedback(E_[valP], E_[valC], true);
+			predictor.feedback(E_[valP], E_[valC], E_[pj], true);
 		}
 	}
 	//update pc if mispredicted

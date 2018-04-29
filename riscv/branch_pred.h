@@ -9,6 +9,6 @@ class BranchPredict
 public:
 	BranchPredict();
 	bool predict(ulli pc, lli offset);
-	void feedback(ulli pc, lli offset, bool succ);
+	void feedback(ulli pc, lli offset, bool pred, bool succ);
 };
 #endif
