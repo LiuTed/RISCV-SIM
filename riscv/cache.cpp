@@ -63,18 +63,18 @@ bool Cache::read(ulli addr, void* target, int len)
 			void *swapin = malloc(1 << b);
 			if(next)
 			{
-				if(!next->read(addr - block_idx(addr), swapin, 1 << b))
-					return false;
 				if(line[swapout].valid && line[swapout].dirty)
 					if(!next->write((line[swapout].tag << (s + b)) | (set_idx(addr) << b), line[swapout].contents, 1 << b))
 						return false;
+				if(!next->read(addr - block_idx(addr), swapin, 1 << b))
+					return false;
 			}
 			else
 			{
-				memcpy(swapin, reinterpret_cast<void*>(addr - block_idx(addr)), 1 << b);
 				if(line[swapout].valid && line[swapout].dirty)
 					memcpy(reinterpret_cast<void*>((line[swapout].tag << (s + b)) | (set_idx(addr) << b)),
 						line[swapout].contents, 1 << b);
+				memcpy(swapin, reinterpret_cast<void*>(addr - block_idx(addr)), 1 << b);
 			}
 			memcpy(line[swapout].contents, swapin, 1 << b);
 			line[swapout].tag = tag(addr);
@@ -125,18 +125,18 @@ bool Cache::write(ulli addr, const void* src, int len)//write-back and write-all
 			void *swapin = malloc(1 << b);
 			if(next)
 			{
-				if(!next->read(addr - block_idx(addr), swapin, 1 << b))
-					return false;
 				if(line[swapout].valid && line[swapout].dirty)
 					if(!next->write((line[swapout].tag << (s + b)) | (set_idx(addr) << b), line[swapout].contents, 1 << b))
 						return false;
+				if(!next->read(addr - block_idx(addr), swapin, 1 << b))
+					return false;
 			}
 			else
 			{
-				memcpy(swapin, reinterpret_cast<void*>(addr - block_idx(addr)), 1 << b);
 				if(line[swapout].valid && line[swapout].dirty)
 					memcpy(reinterpret_cast<void*>((line[swapout].tag << (s + b)) | (set_idx(addr) << b)),
 						line[swapout].contents, 1 << b);
+				memcpy(swapin, reinterpret_cast<void*>(addr - block_idx(addr)), 1 << b);
 			}
 			memcpy(line[swapout].contents, swapin, 1 << b);
 			line[swapout].tag = tag(addr);

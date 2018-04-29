@@ -51,7 +51,7 @@ double a[100*100], b[100*100], c[100*100];
 int main()
 {
 	for(int i = 0; i < 1000; i++)
-		arr[i] = (541 * i) % 1000;
+		arr[i] = (541 * i) % 1000;//6133 is the 800th prime number
 	for(int i = 0; i < 100; i++)
 		for(int j = 0; j < 100; j++)
 		{
@@ -59,7 +59,7 @@ int main()
 			b[i*100+j] = i + 1.0 / (j + 1);
 		}
 	printstring("test start\n");
-	qs(arr, 0, 1000);
+	qs(arr, 0, 10000);
 	printstring("quick sort done\n");
 	mat_mul(a, b, c, 100, 100, 100);
 	printstring("matrix multiplication done\n");

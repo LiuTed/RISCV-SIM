@@ -1859,6 +1859,8 @@ void Machine::pipeline_forward()
 
 	predPC = f_[valP] + incPC;
 
+	bool datarace = false;
+
 	if(D_[rA] > 0)
 	{
 		if(D_[rA] == W_[dstE])
@@ -1872,6 +1874,11 @@ void Machine::pipeline_forward()
 				F_status |= Stall;
 				D_status |= Stall;
 				E_status |= Bubble;
+				if(!datarace)
+				{
+					datarace = true;
+					stats->summary("Machine: data race");
+				}
 			}
 			else
 				d_[valA] = e_[valE];
@@ -1901,6 +1908,11 @@ void Machine::pipeline_forward()
 					F_status |= Stall;
 					D_status |= Stall;
 					E_status |= Bubble;
+					if(!datarace)
+					{
+						datarace = true;
+						stats->summary("Machine: data race");
+					}
 				}
 				else
 					d_[valB] = e_[valE];
@@ -1920,6 +1932,11 @@ void Machine::pipeline_forward()
 				F_status |= Stall;
 				D_status |= Stall;
 				E_status |= Bubble;
+				if(!datarace)
+				{
+					datarace = true;
+					stats->summary("Machine: data race");
+				}
 			}
 			else
 				d_[valD] = e_[valE];

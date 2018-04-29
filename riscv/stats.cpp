@@ -74,15 +74,15 @@ void Statistics::propagate()
 		+ get("Cache: L1D cache fine-grained read") * 2//3
 		+ get("Cache: L1D cache fine-grained write") * 2//3
 		+ get("Cache: L1I cache fine-grained read") * 2//3
-		+ get("Cache: L2 cache fine-grained read") * 27//30
-		+ get("Cache: L2 cache fine-grained write") * 27//30
-		+ get("Cache: L3 cache fine-grained read") * 270//300
-		+ get("Cache: L3 cache fine-grained write") * 270//300
-		+ get("Cache: L3 cahce read miss") * 2700//3000
-		+ get("Cache: L3 cache write miss") * 2700//3000
+		+ get("Cache: L2 cache fine-grained read") * 11//12
+		+ get("Cache: L2 cache fine-grained write") * 11//12
+		+ get("Cache: L3 cache fine-grained read") * 39//40
+		+ get("Cache: L3 cache fine-grained write") * 39//40
+		+ get("Cache: L3 cahce read miss") * 249//250
+		+ get("Cache: L3 cache write miss") * 249//250
 
-		+ get("Memory: TLB miss") * 3000 * 3//4-level page-table
-		//page directory is pre-loaded
+		+ get("Memory: TLB hit") * 1
+		+ get("Memory: TLB miss") * 500
 		;
 
 	summary("Machine: fine cycle",
@@ -90,6 +90,8 @@ void Statistics::propagate()
 
 	summary("Machine: throughput",
 		get("Machine: total instr execute") / get("Machine: fine cycle"));
+	summary("Machine: CPI",
+		get("Machine: fine cycle") / get("Machine: Nnop instr execute"));
 	summary("Machine: speedup ratio",
 		(5 * get("Machine: total instr execute") + latency)
 		/ get("Machine: fine cycle"));
