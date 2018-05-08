@@ -12,6 +12,7 @@ int cal_n(int i)
 
 int main()  
 {
+	for(int _ = 0; _ < 100; _++)
 	result=cal_n(10);
 	return 0;
 }  

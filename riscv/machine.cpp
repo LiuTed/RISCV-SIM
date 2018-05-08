@@ -6,6 +6,28 @@
 #include <cmath>
 #include <set>
 using namespace std;
+
+instr_buf::instr_buf():ptr(ib_size){}
+void instr_buf::clear()
+{
+	ptr = ib_size;
+}
+void instr_buf::load(Memory* m, ulli a, int pl)
+{
+	m->read(a, buf, -ib_size, pl);
+	ptr = 0;
+}
+bool instr_buf::get(uint& i)
+{
+	if(ptr + 4 > ib_size || ptr < 0) return false;
+	i = *reinterpret_cast<uint*>(&buf[ptr]);
+	return true;
+}
+void instr_buf::inc(int i)
+{
+	ptr += i;
+}
+
 Machine::Machine():predictor(),bps()
 {
 	regfile = new RegFile(num_registers);
@@ -277,8 +299,15 @@ void Machine::IF()
 		return;
 	}
 	instruction instr;
-	if(memory->read(predPC, &instr.wrap, -4, CSR.PL))
-		raise_exception(unknown_error, predPC);//fetch one instruction
+	if(!ib.get(instr.wrap))
+	{
+		ib.load(memory, predPC, CSR.PL);
+		bool f = ib.get(instr.wrap);
+		if(!f)
+			raise_exception(unknown_error, predPC);
+	}
+	//if(memory->read(predPC, &instr.wrap, -4, CSR.PL))
+	//	raise_exception(unknown_error, predPC);//fetch one instruction
 	int type;
 
 	dbg_print("%llx: %08x\n", predPC, instr.wrap);
@@ -2040,6 +2069,7 @@ void Machine::pipeline_forward()
 	}
 	//pipeline is clear now, halt
 
+	ib.inc(predPC - f_[valP]);
 	memset(f_, -1, sizeof(f_));
 	memset(d_, -1, sizeof(d_));
 	memset(e_, -1, sizeof(e_));

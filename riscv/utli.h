@@ -9,11 +9,12 @@ typedef unsigned short ushort;
 #define num_usr_regs 64
 #define num_int_regs 32
 #define cache_level 3
+#define ib_size 16
 const int cache_params[cache_level][3] = {
 	//s, L, b
-	{6, 4, 8},//64KB
-	{10, 4, 8},//1MB
-	{12, 6, 8}//6MB
+	{6, 8, 6},//32KB * 2
+	{9, 8, 6},//256KB
+	{14, 8, 6}//8MB
 };
 const int tlb_params[2] = {
 	//s, L

@@ -71,18 +71,18 @@ void Statistics::propagate()
 
 		+ get("Machine: syscall") * 9//11
 
-		+ get("Cache: L1D cache fine-grained read") * 2//3
-		+ get("Cache: L1D cache fine-grained write") * 2//3
-		+ get("Cache: L1I cache fine-grained read") * 2//3
-		+ get("Cache: L2 cache fine-grained read") * 11//12
-		+ get("Cache: L2 cache fine-grained write") * 11//12
-		+ get("Cache: L3 cache fine-grained read") * 39//40
-		+ get("Cache: L3 cache fine-grained write") * 39//40
-		+ get("Cache: L3 cahce read miss") * 249//250
-		+ get("Cache: L3 cache write miss") * 249//250
+		+ get("Cache: L1D cache fine-grained read") * 1//1
+		+ get("Cache: L1D cache fine-grained write") * 1//1
+		+ get("Cache: L1I cache fine-grained read") * 1//1
+		+ get("Cache: L2 cache fine-grained read") * 8//8
+		+ get("Cache: L2 cache fine-grained write") * 8//8
+		+ get("Cache: L3 cache fine-grained read") * 20//20
+		+ get("Cache: L3 cache fine-grained write") * 20//20
+		+ get("Cache: L3 cahce read miss") * 100//100
+		+ get("Cache: L3 cache write miss") * 100//100
 
-		+ get("Memory: TLB hit") * 1
-		+ get("Memory: TLB miss") * 500
+		// + get("Memory: TLB hit") * 0
+		// + get("Memory: TLB miss") * 200
 		;
 
 	summary("Machine: fine cycle",

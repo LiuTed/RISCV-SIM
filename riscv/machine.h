@@ -61,6 +61,17 @@ extern Statistics *stats;
 #define unknown_error -1
 //define exceptions code
 
+struct instr_buf
+{
+	char buf[ib_size];
+	int ptr;
+	instr_buf();
+	void clear();
+	void load(Memory*, ulli, int);
+	bool get(uint&);
+	void inc(int);
+};
+
 class Machine
 {
 private:
@@ -120,6 +131,7 @@ private:
 	void breakpoint();
 	BranchPredict predictor;
 	std::set<lli> bps;
+	instr_buf ib;
 public:
 	Machine();
 	~Machine();

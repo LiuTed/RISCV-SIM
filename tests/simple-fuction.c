@@ -15,6 +15,7 @@ void fuction()
 
 int main()
 {
+	for(int _ = 0; _ < 100; _++)
 	fuction();
 	return 0;
 }
