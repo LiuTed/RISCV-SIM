@@ -6,8 +6,8 @@
 class Cache: public Device
 {
 public:
-    int write(uptr_t addr, const void* src, int len) override;
-    int read(uptr_t addr, void* dest, int len) override;
+    int write(uaddr_t addr, const void* src, int len) override;
+    int read(uaddr_t addr, void* dest, int len) override;
     const char* name() const override;
 };
 

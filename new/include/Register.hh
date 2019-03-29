@@ -13,21 +13,22 @@ union Register64
         int32_t i64h;
     };
 
-    int32_t i32;
+    //const as set these variant will not affect the higher bits
+    const int32_t i32;
     struct
     {
         int16_t i32l;
         int16_t i32h;
     };
 
-    int16_t i16;
+    const int16_t i16;
     struct
     {
         int8_t i16l;
         int8_t i16h;
     };
 
-    uint8_t i8;
+    const uint8_t i8;
 
     float f32;
     double f64;
@@ -57,32 +58,32 @@ union Register64
         }
         return res;
     }
-    //close interval
+    //left-close-right-open interval
     int64_t sub(const std::initializer_list<std::initializer_list<int> >& bits) const
     {
         int64_t res = 0;
         for(const auto& pair: bits)
         {
-            if(pair.size() == 1)
+            if(pair.size() == 1) //single bit
             {
                 res <<= 1;
                 res |= test(*pair.begin());
             }
-            else if(pair.size() == 2)
+            else if(pair.size() == 2) // bit range [s,e)
             {
                 auto iter = pair.begin();
                 int s = *iter;
                 int e = *++iter;
-                res <<= (e-s+1);
-                res |= subBits(i64, s, e);
+                res <<= (e-s);
+                res |= (subBits(i64, s, e) >> s);
             }
-            else if(pair.size() == 3)
+            else if(pair.size() == 3) // [s, e) with gap
             {
                 auto iter = pair.begin();
                 int s = *iter++;
                 int e = *iter++;
                 int gap = *iter;
-                for(int i = s; i <= e; i += gap)
+                for(int i = s; i < e; i += gap)
                 {
                     res <<= 1;
                     res |= test(i);
@@ -95,6 +96,7 @@ union Register64
         }
         return res;
     }
+    Register64(): i64(0) {}
 };
 
 #endif 
